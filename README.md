@@ -11,7 +11,7 @@ This project uses [Stack][stack].
 These instructions assume you have [Homebrew][homebrew] installed.
 
 ```bash
-$ brew install pkg-config cairo glib pango gtk+3
+$ brew install pkg-config cairo glib pango gtk+3 gtk-mac-integration
 ```
 
 ## Licence
