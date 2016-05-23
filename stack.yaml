@@ -7,7 +7,9 @@ resolver: lts-5.17
 # Local packages, usually specified by relative directory name
 packages:
 - '.'
-- gtk3-mac-integration-0.3.3.0
+- location:
+    git: https://github.com/rcook/gtk-mac-integration.git
+    commit: 0b7987d27d7e4d6ee91ad7b95582b88ecfaad86c
 
 # Packages to be pulled from upstream that are not in the resolver (e.g., acme-missiles-0.3)
 extra-deps:
