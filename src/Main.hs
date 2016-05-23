@@ -4,6 +4,7 @@ module Main (Main.main) where
 import Control.Exception
 import Control.Monad
 import Graphics.UI.Gtk
+import Graphics.UI.Gtk.OSX
 
 showDialog :: Window -> String -> String -> IO ()
 showDialog window title message = bracket
@@ -16,6 +17,9 @@ showDialog window title message = bracket
 main :: IO ()
 main = do
     void initGUI
+
+    app <- applicationNew
+    on app willTerminate (return ())
 
     -- Create a new window
     window <- windowNew
