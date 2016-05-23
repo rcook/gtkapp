@@ -7,8 +7,15 @@ resolver: lts-5.17
 # Local packages, usually specified by relative directory name
 packages:
 - '.'
+- gtk3-mac-integration-0.3.3.0
+
 # Packages to be pulled from upstream that are not in the resolver (e.g., acme-missiles-0.3)
-extra-deps: []
+extra-deps:
+- Cabal-1.24.0.0
+- gtk2hs-buildtools-0.13.1.0
+
+explicit-setup-deps:
+  gtk3-mac-integration: true
 
 # Override default flag values for local packages and extra-deps
 flags: {}
