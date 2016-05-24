@@ -1,3 +1,4 @@
+{-
 -- A simple program to demonstrate Gtk2Hs.
 module Main (Main.main) where
 
@@ -19,7 +20,14 @@ main = do
     void initGUI
 
     app <- applicationNew
-    on app willTerminate (return ())
+
+    on app blockTermination $ do
+        putStrLn "blockTermination"
+        return False
+
+    on app willTerminate $ do
+        putStrLn "willTerminate"
+        return ()
 
     -- Create a new window
     window <- windowNew
@@ -57,7 +65,66 @@ main = do
     -- also allocates the right amount of space to the windows and the button.
     widgetShowAll window
 
+    applicationSetUseQuartsAccelerators app True
+    applicationReady app
+
     -- All Gtk+ applications must have a main loop. Control ends here
     -- and waits for an event to occur (like a key press or mouse event).
     -- This function returns if the program should finish.
     mainGUI
+
+-}
+module Main (main) where
+
+import Graphics.UI.Gtk
+import Graphics.UI.Gtk.OSX
+import Graphics.UI.Gtk.OSX.Application
+import System.Glib.GObject (objectNew)
+
+createMenuBar descr
+    = do bar <- menuBarNew
+         mapM_ (createMenu bar) descr
+         return bar
+    where
+      createMenu bar (name,items)
+          = do menu <- menuNew
+               item <- menuItemNewWithLabelOrMnemonic name
+               menuItemSetSubmenu item menu
+               menuShellAppend bar item
+               mapM_ (createMenuItem menu) items
+      createMenuItem menu (name,action)
+          = do item <- menuItemNewWithLabelOrMnemonic name
+               menuShellAppend menu item
+               case action of
+                 Just act -> on item menuItemActivated act
+                 Nothing  -> on item menuItemActivated (return ())
+      menuItemNewWithLabelOrMnemonic name
+          | elem '_' name = menuItemNewWithMnemonic name
+          | otherwise     = menuItemNewWithLabel name
+
+menuBarDescr
+    = [ ("_File", [ ("Open", Nothing)
+                  , ("Save", Nothing)
+                  , ("_Quit", Just mainQuit)
+                  ]
+        )
+      , ("Help",  [ ("_Help", Nothing)
+                  ]
+        )
+      ]
+
+main =
+    do initGUI
+       app <- applicationNew
+       window <- windowNew
+       menuBar <- createMenuBar menuBarDescr
+       set window [ windowTitle := "Demo"
+                  , containerChild := menuBar
+                  ]
+       on window objectDestroy mainQuit
+       --onDestroy window mainQuit
+       widgetShowAll window
+       widgetHide menuBar
+       applicationSetMenuBar app menuBar
+       applicationReady app
+       mainGUI
