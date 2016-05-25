@@ -28,6 +28,11 @@ executable gtkapp
 
   other-modules:      App
 
+  if os(osx)
+    other-modules:    OSXApp
+  else
+    other-modules:    OtherApp
+
 test-suite doctests
   type:               exitcode-stdio-1.0
   hs-source-dirs:     test

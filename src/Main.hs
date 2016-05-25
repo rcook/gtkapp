@@ -19,7 +19,13 @@ main :: IO ()
 main = do
     void initGUI
 
-    App.initApp
+    app <- App.initApp
+
+    on app App.blockTermination $ do
+        putStrLn "blockTermination"
+        return False
+
+    on app App.willTerminate $ putStrLn "willTerminate"
 
     -- Create a new window
     window <- windowNew
