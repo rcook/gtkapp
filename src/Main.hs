@@ -14,11 +14,11 @@ main = do
 
     app <- App.initApp
 
-    on app App.blockTermination $ do
+    void $ on app App.blockTermination $ do
         putStrLn "blockTermination"
         return False
 
-    on app App.willTerminate $ putStrLn "willTerminate"
+    void $ on app App.willTerminate $ putStrLn "willTerminate"
 
     -- Create a new window
     window <- windowNew
@@ -55,17 +55,6 @@ main = do
     -- The final step is to display this newly created widget. Note that this
     -- also allocates the right amount of space to the windows and the button.
     widgetShowAll window
-
-{-
-    -- blockTermination: return True to prevent quit, False to allow
-    on app blockTermination $ do
-        putStrLn "blockTermination"
-        return False
-
-    -- willTerminate: handle clean-up etc.
-    on app willTerminate $ do
-        putStrLn "willTerminate"
--}
 
     -- All Gtk+ applications must have a main loop. Control ends here
     -- and waits for an event to occur (like a key press or mouse event).
