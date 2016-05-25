@@ -27,6 +27,7 @@ executable gtkapp
     build-depends:    gtk3-mac-integration
 
   other-modules:      App
+                    , Helpers
 
   if os(osx)
     other-modules:    OSXApp

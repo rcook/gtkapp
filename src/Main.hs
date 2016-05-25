@@ -6,14 +6,7 @@ import Control.Monad
 import Graphics.UI.Gtk
 
 import qualified App
-
-showDialog :: Window -> String -> String -> IO ()
-showDialog window title message = bracket
-    (messageDialogNew (Just window) [] MessageInfo ButtonsOk message)
-    widgetDestroy
-    (\d -> do
-        set d [ windowTitle := title ]
-        void $ dialogRun d)
+import qualified Helpers
 
 main :: IO ()
 main = do
@@ -47,7 +40,7 @@ main = do
     -- function given as the second argument.
     void $ on button buttonActivated (putStrLn "Hello World")
 
-    void $ on button buttonActivated $ showDialog window "THE-TITLE" "THE-MESSAGE"
+    void $ on button buttonActivated $ Helpers.showDialog window "THE-TITLE" "THE-MESSAGE"
 
     -- Gtk+ allows several callbacks for the same event.
     -- This one will cause the window to be destroyed by calling
