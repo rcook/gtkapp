@@ -26,6 +26,8 @@ executable gtkapp
   if os(osx)
     build-depends:    gtk3-mac-integration
 
+  other-modules:      App
+
 test-suite doctests
   type:               exitcode-stdio-1.0
   hs-source-dirs:     test
