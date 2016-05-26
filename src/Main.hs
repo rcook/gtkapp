@@ -49,8 +49,17 @@ main = do
         putStrLn "A \"clicked\"-handler to say \"destroy\""
         widgetDestroy window
 
-    -- Insert the hello-world button into the window.
-    set window [ containerChild := button ]
+    button2 <- buttonNew
+    set button2 [ buttonLabel := "Another button" ]
+
+    hButtonBox <- hButtonBoxNew
+    mapM_ (containerAdd hButtonBox)
+        [ button
+        , button2
+        ]
+
+    -- Insert button box into window
+    set window [ containerChild := hButtonBox ]
 
     -- The final step is to display this newly created widget. Note that this
     -- also allocates the right amount of space to the windows and the button.
