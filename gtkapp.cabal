@@ -34,6 +34,9 @@ executable gtkapp
   else
     other-modules:    OtherApp
 
+  if os(osx)
+    ld-options:       -lobjc
+
 test-suite doctests
   type:               exitcode-stdio-1.0
   hs-source-dirs:     test
