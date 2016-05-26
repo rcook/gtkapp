@@ -8,8 +8,6 @@ import Graphics.UI.Gtk
 import qualified App
 import qualified Helpers
 
-import qualified Graphics.UI.Gtk.OSX as OSX
-
 main :: IO ()
 main = do
     void initGUI
@@ -23,8 +21,7 @@ main = do
     void $ on app App.willTerminate $ putStrLn "willTerminate"
 
     -- Create a new window
-    window <- windowNew
-    on window realize $ widgetGetWindow window >>= maybe (return ()) OSX.allowFullscreen
+    window <- App.windowNew App.defaultWindowOptions { App.fullScreen = True }
 
     -- Here we connect the "destroy" event to a signal handler.
     -- This event occurs when we call widgetDestroy on the window

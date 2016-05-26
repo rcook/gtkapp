@@ -1,3 +1,5 @@
+{-# LANGUAGE RecordWildCards #-}
+
 -------------------------------------------------------------------------------
 -- | Module: OSXApp
 --
@@ -9,7 +11,10 @@ module OSXApp
       OSX.Application
     , OSX.blockTermination
     , OSX.willTerminate
+    , WindowOptions(fullScreen)
+    , defaultWindowOptions
     , initApp
+    , windowNew
     ) where
 
 import           Control.Monad
@@ -31,3 +36,20 @@ initApp = do
     OSX.applicationSetMenuBar app menuBar
     OSX.applicationReady app
     return app
+
+data WindowOptions = WindowOptions
+    { fullScreen :: Bool
+    }
+
+defaultWindowOptions :: WindowOptions
+defaultWindowOptions = WindowOptions
+    { fullScreen = False
+    }
+
+windowNew :: WindowOptions -> IO Gtk.Window
+windowNew WindowOptions{..} = do
+    window <- Gtk.windowNew
+    when fullScreen $
+        void $ Gtk.on window Gtk.realize $
+        Gtk.widgetGetWindow window >>= maybe (return ()) OSX.allowFullscreen
+    return window
