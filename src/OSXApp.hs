@@ -12,6 +12,7 @@ module OSXApp
     , initApp
     ) where
 
+import           Control.Monad
 import qualified Graphics.UI.Gtk as Gtk
 import qualified Graphics.UI.Gtk.OSX as OSX
 
@@ -20,6 +21,12 @@ import qualified Graphics.UI.Gtk.OSX as OSX
 initApp :: IO OSX.Application
 initApp = do
     app <- OSX.applicationNew
+
+    usesQuartzAccelerators <- OSX.applicationGetUseQuartzAccelerators app
+    unless usesQuartzAccelerators $ do
+        putStrLn "WARNING: applicationGetUseQuartzAccelerators returned False"
+        OSX.applicationSetUseQuartzAccelerators app True
+
     menuBar <- Gtk.menuBarNew
     OSX.applicationSetMenuBar app menuBar
     OSX.applicationReady app
