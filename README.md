@@ -14,6 +14,11 @@ These instructions assume you have [Homebrew][homebrew] installed.
 $ brew install pkg-config cairo glib pango gtk+3 gtk-mac-integration
 ```
 
+## To do
+
+* Allow full screen on Mac OS X
+* Give app focus on launch
+
 ## Licence
 
 Released under MIT License
