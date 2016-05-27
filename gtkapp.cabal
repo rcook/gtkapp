@@ -28,6 +28,7 @@ executable gtkapp
 
   other-modules:      App
                     , Helpers
+                    , WindowOptions
 
   if os(osx)
     other-modules:    OSXApp

@@ -7,15 +7,15 @@
 -------------------------------------------------------------------------------
 
 #if defined(darwin_HOST_OS)
-
-module App (module OSXApp) where
-
-import OSXApp
-
+#define PLATFORM_APP_MODULE OSXApp
 #else
-
-module App (module OtherApp) where
-
-import OtherApp
-
+#define PLATFORM_APP_MODULE OtherApp
 #endif
+
+module App
+    ( module PLATFORM_APP_MODULE
+    , module WindowOptions
+    ) where
+
+import PLATFORM_APP_MODULE
+import WindowOptions

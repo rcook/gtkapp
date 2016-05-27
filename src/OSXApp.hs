@@ -1,5 +1,3 @@
-{-# LANGUAGE RecordWildCards #-}
-
 -------------------------------------------------------------------------------
 -- | Module: OSXApp
 --
@@ -11,8 +9,6 @@ module OSXApp
       OSX.Application
     , OSX.blockTermination
     , OSX.willTerminate
-    , WindowOptions(fullScreen)
-    , defaultWindowOptions
     , initApp
     , windowNew
     ) where
@@ -20,6 +16,7 @@ module OSXApp
 import           Control.Monad
 import qualified Graphics.UI.Gtk as Gtk
 import qualified Graphics.UI.Gtk.OSX as OSX
+import           WindowOptions
 
 -- | Initialize application
 -- Perform Mac OS X-specific application initialization
@@ -37,19 +34,10 @@ initApp = do
     OSX.applicationReady app
     return app
 
-data WindowOptions = WindowOptions
-    { fullScreen :: Bool
-    }
-
-defaultWindowOptions :: WindowOptions
-defaultWindowOptions = WindowOptions
-    { fullScreen = False
-    }
-
 windowNew :: WindowOptions -> IO Gtk.Window
-windowNew WindowOptions{..} = do
+windowNew windowOptions = do
     window <- Gtk.windowNew
-    when fullScreen $
+    when (fullScreen windowOptions) $
         void $ Gtk.on window Gtk.realize $
         Gtk.widgetGetWindow window >>= maybe (return ()) OSX.allowFullscreen
     return window
